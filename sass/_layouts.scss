@@ -1,0 +1,72 @@
+.search {
+  background-color: var(--color-primary-400);
+  height: 12rem;
+  padding-inline: var(--space-400);
+
+  &__heading {
+    color: var(--color-text-100);
+    font-size: var(--font-size-700);
+    font-weight: 600;
+    padding-top: var(--space-600);
+    margin-left: var(--space-400);
+  }
+
+  &__form {
+    position: relative;
+    margin-top: var(--space-200);
+
+    &::before {
+      display: block;
+      content: "";
+      height: 5rem;
+      width: 10rem;
+      position: absolute;
+      right: 5%;
+      top: -120%;
+      background-image: url('/assets/images/hangul.webp');
+      background-size: cover;
+    }
+  }
+
+  &__input {
+    width: 100%;
+    padding: var(--space-400);
+    font-size: var(--font-size-500);
+    border: none;
+    border-radius: var(--radius-min);
+    padding-left: var(--space-500);
+
+    &::placeholder {
+      color: var(--color-text-300);
+    }
+  }
+
+  &__submit {
+    position: absolute;
+    right: var(--space-500);
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: var(--font-size-500);
+    color: var(--color-text-300);
+    overflow-y: clip;
+    height: var(--font-size-700);
+
+    &::before {
+      display: block;
+      font-family: 'icomoon';
+      content: "\e986";
+      text-align: center;
+    }
+  }
+}
+
+.result {
+  &__init {
+    color: var(--color-text-300);
+    font-size: var(--font-size-600);
+    margin-top: var(--space-800);
+    margin-inline: auto;
+    width: 70%;
+    text-align: center;
+  }
+}

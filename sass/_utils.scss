@@ -1,0 +1,13 @@
+@use 'mixins' as m;
+
+.u-margin-right-auto {
+  margin-right: auto;
+}
+
+.u-flex-1 {
+  flex: 1;
+}
+
+.u-hide {
+  @include m.hide-el;
+}

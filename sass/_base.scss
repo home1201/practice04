@@ -1,0 +1,94 @@
+@import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
+
+//Reset
+*,
+*::before,
+::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Wanted Sans Variable', system-ui, sans-serif;
+  color: var(--color-text-400);
+  line-height: 1.6;
+  font-size: var(--font-size-400);
+  word-break: keep-all;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:link,
+a:visited {
+  color: inherit;
+}
+
+a:hover,
+a:focus,
+a:active {}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  // font-family: 'Inter', sans-serif;
+  // color: var(--color-gray-800);
+  // font-weight: var(--font-weight-exbold);
+}
+
+h1 {
+  // font-size: var(--font-scale-900);
+  // line-height: 1.15;
+}
+
+h2 {
+  // font-size: var(--font-scale-900);
+  // line-height: 1.15;
+}
+
+h3 {
+  // font-size: var(--font-scale-900);
+  // line-height: 1.15;
+}
+
+
+h4 {
+  // font-size: var(--font-scale-900);
+  // line-height: 1.15;
+}
+
+
+h5 {
+  // font-size: var(--font-scale-900);
+  // line-height: 1.15;
+}
+
+
+h6 {
+  // font-size: var(--font-scale-900);
+  // line-height: 1.15;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button {
+  all: unset;
+}
+
+input,
+textarea {
+  min-width: 0;
+  // flex 컨테이너에서 width: 100%로 설정해서 사용
+}
