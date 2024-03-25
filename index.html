@@ -3,21 +3,20 @@
 
 <head>
   <meta charset="UTF-8" />
-  <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script type="module" src="/main.js"></script>
+  <script type="module" src="/js/main.js"></script>
   <title>국어사전</title>
 </head>
 
 <body>
-  <main class="wrapper">
+  <main class="wrapper" data-main>
     <header class="search">
       <a href="#">
         <h1 class="search__heading">우리말사전</h1>
       </a>
-      <form action="" class="search__form">
+      <form action="" class="search__form" data-search-form>
         <label class="u-hide" for="search">검색어 입력</label>
-        <input id="search" class="search__input" type="text" placeholder="검색어 입력">
+        <input id="search" class="search__input" name="input" type="text" placeholder="검색어 입력">
         <button class="search__submit" type="submit">찾기</button>
       </form>
     </header>

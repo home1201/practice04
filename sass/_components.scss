@@ -9,20 +9,15 @@
 }
 
 .wrapper {
-  width: min(v.$content-max-width, 100% - 2rem);
+  width: min(v.$content-max-width-rem, 100% - 2rem);
   margin-inline: auto;
 }
 
 .button {
+
   // background-color: ;
   // padding: auto;
   // border-radius: ;
-
-  &:link,
-  #{&}:visited {
-    // color: 
-  }
-
   &:hover,
   #{&}:focus,
   #{&}:active {}
@@ -33,7 +28,7 @@
     position: fixed;
     display: block;
     bottom: 8%;
-    margin-left: min(v.$content-max-width, 100% - 2rem);
+    margin-left: min(v.$content-max-width-rem, 100% - 2rem);
     transform: translateX(-120%);
     background-color: var(--color-secondary-400);
     color: var(--color-text-100);

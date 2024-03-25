@@ -1,13 +1,15 @@
+@import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
+// font-family: "Wanted Sans Variable", system-ui, sans-serif;
+
 @font-face {
   font-family: 'icomoon';
-  src: url('/assets/icons/icomoon.woff2') format('woff2');
+  src: url('/assets/fonts/icomoon.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
 
-[class^="icon-"],
-[class*=" icon-"] {
+i {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: never;
@@ -16,6 +18,7 @@
   font-variant: normal;
   text-transform: none;
   line-height: 1;
+  display: inline-block;
 
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;

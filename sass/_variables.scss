@@ -37,4 +37,10 @@
 }
 
 // //Sass Variables
-$content-max-width: f.em(420);
+$breakpoint-mobile: 420;
+$breakpoint-mobile-em: f.em($breakpoint-mobile);
+$breakpoint-mobile-rem: f.rem($breakpoint-mobile);
+
+$content-max-width: 500;
+$content-max-width-em: f.em($content-max-width);
+$content-max-width-rem: f.rem($content-max-width);
