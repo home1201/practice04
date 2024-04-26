@@ -1,19 +1,40 @@
+import Searcher from './searcher';
+import Store from './stores';
 import '/sass/style.scss';
-import { fetchJSON } from '/js/utils';
 
 (async () => {
-  const apiKey = import.meta.env.VITE_API_KEY;
-  const notFoundMessage = 'Unexpected end of JSON input';
+  const actionList = ['INITIAL STATE', 'SEARCHING START', "SEARCHING COMPLETE"];
+  const reducer = (action, state) => {
+    switch (action) {
+      case 'INITIAL STATE':
+      case 'SEARCHING START':
+      case 'SEARCHING COMPLETE':
+        return {
+          id: state.id + 1,
+          action: action,
+        }
+      default:
+        return {
+          id: state.id + 1,
+          action: "INVALID ACTION",
+        };
+    }
+  }
+  const store = new Store(actionList, reducer);
+
   const searchForm = document.querySelector('[data-search-form]');
-  let inputValue = null;
   searchForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    inputValue = searchForm.input.value;
-    try {
-      const data = await fetchJSON(`/api/search.do?certkey_no=6410&key=${apiKey}&type_search=search&req_type=json&q=${inputValue}`);
-      console.log(data);
-    } catch (err) {
-      if (err.message === notFoundMessage) console.log('검색 결과 없음');
-    }
-  })
+    store.dispatch("SEARCHING START");
+  });
+
+  const searcher = new Searcher(import.meta.env.VITE_API_KEY);
+  store.subscribe("SEARCHING START", async () => {
+    const inputValue = searchForm.input.value;
+    await searcher.search(inputValue);
+    store.dispatch("SEARCHING COMPLETE");
+  });
+  store.subscribe("SEARCHING COMPLETE", () => {
+    console.log(searcher.lastResult);
+  });
 })();
