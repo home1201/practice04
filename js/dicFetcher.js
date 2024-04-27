@@ -1,6 +1,6 @@
 import { fetchJSON } from '/js/utils';
 
-export default class Searcher {
+export default class DicFetcher {
   static get notFoundMessage() { return 'Unexpected end of JSON input'; }
   static get notFoundObject() {
     return {
@@ -19,17 +19,15 @@ export default class Searcher {
 
   constructor(apiKey) {
     this.#apiKey = apiKey;
-    this.lastResult = null;
   }
 
   async search(inputValue) {
     if (chrome?.runtime?.lastError) { console.warn(`Warn : ${chrome.runtime.lastError.message}`); return; }
 
     try {
-      this.lastResult = await fetchJSON(`/api/search.do?certkey_no=6410&key=${this.#apiKey}&type_search=search&req_type=json&q=${inputValue}`);
+      return await fetchJSON(`/api/search.do?certkey_no=6410&key=${this.#apiKey}&type_search=search&req_type=json&q=${inputValue}`);
     } catch (err) {
-      if (err.message === Searcher.notFoundMessage) this.lastResult = Searcher.notFoundObject;
-      else this.lastResult = err;
+      throw err;
     }
   }
 

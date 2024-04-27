@@ -1,40 +1,41 @@
-import Searcher from './searcher';
-import Store from './stores';
+import { SearchActions, dicStore } from './dicStore';
+import DicFetcher from './dicFetcher';
 import '/sass/style.scss';
 
 (async () => {
-  const actionList = ['INITIAL STATE', 'SEARCHING START', "SEARCHING COMPLETE"];
-  const reducer = (action, state) => {
-    switch (action) {
-      case 'INITIAL STATE':
-      case 'SEARCHING START':
-      case 'SEARCHING COMPLETE':
-        return {
-          id: state.id + 1,
-          action: action,
-        }
-      default:
-        return {
-          id: state.id + 1,
-          action: "INVALID ACTION",
-        };
-    }
-  }
-  const store = new Store(actionList, reducer);
-
   const searchForm = document.querySelector('[data-search-form]');
-  searchForm.addEventListener('submit', async (e) => {
+  searchForm.addEventListener('submit', e => {
     e.preventDefault();
-    store.dispatch("SEARCHING START");
-  });
+    const inputValue = e.target.input.value;
+    dicStore.dispatch(SearchActions.searchStart, inputValue);
+  })
 
-  const searcher = new Searcher(import.meta.env.VITE_API_KEY);
-  store.subscribe("SEARCHING START", async () => {
-    const inputValue = searchForm.input.value;
-    await searcher.search(inputValue);
-    store.dispatch("SEARCHING COMPLETE");
-  });
-  store.subscribe("SEARCHING COMPLETE", () => {
-    console.log(searcher.lastResult);
-  });
+  dicStore.subscribe(SearchActions.searchStart, async () => {
+    const inputValue = dicStore.State.data;
+    const dicFetcher = new DicFetcher(import.meta.env.VITE_API_KEY);
+
+    let result = null;
+    try {
+      result = await dicFetcher.search(inputValue);
+      dicStore.dispatch(SearchActions.searchComplete, result);
+    } catch (error) {
+      result = {
+        word: inputValue,
+        error,
+      };
+      dicStore.dispatch(SearchActions.searchError, result);
+    }
+  })
+
+  const resultEl = document.querySelector('[data-result-test]');
+  dicStore.subscribe(SearchActions.searchComplete, () => {
+    const word = dicStore.State.data.channel.item[0].word;
+    const definition = dicStore.State.data.channel.item[0].sense.definition;
+    resultEl.textContent = `${word} - ${definition}`;
+  })
+  dicStore.subscribe(SearchActions.searchError, () => {
+    const word = dicStore.State.data.word;
+    const errorMessage = dicStore.State.data.error.message;
+    if (errorMessage === DicFetcher.notFoundMessage) resultEl.textContent = `${word} - 없는 단어입니다.`;
+  })
 })();
