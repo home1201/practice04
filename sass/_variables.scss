@@ -3,6 +3,7 @@
 //CSS Variables
 :root {
   //Color
+  --color-primary-100: hsl(222, 92%, 98%);
   --color-primary-400: hsl(222, 92%, 20%);
   --color-secondary-400: hsl(4, 99%, 39%);
 
@@ -22,6 +23,7 @@
   --font-size-900: clamp(3.05rem, 2.58vw + 2.41rem, 4.47rem);
 
   //Space
+  --space-100: .25rem;
   --space-200: .5rem;
   --space-300: .75rem;
   --space-400: 1rem;

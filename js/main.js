@@ -1,13 +1,16 @@
 import { SearchActions, dicStore } from './dicStore';
 import DicFetcher from './dicFetcher';
 import '/sass/style.scss';
+import ResultItemElement from './resultItemElement';
 
 (async () => {
+  const resultEl = new ResultItemElement();
+  resultEl.showLog();
   const searchForm = document.querySelector('[data-search-form]');
   searchForm.addEventListener('submit', e => {
     e.preventDefault();
     const inputValue = e.target.input.value;
-    dicStore.dispatch(SearchActions.searchStart, inputValue);
+    // dicStore.dispatch(SearchActions.searchStart, inputValue);
   })
 
   dicStore.subscribe(SearchActions.searchStart, async () => {
@@ -27,6 +30,7 @@ import '/sass/style.scss';
     }
   })
 
+  /*
   const resultEl = document.querySelector('[data-result-test]');
   dicStore.subscribe(SearchActions.searchComplete, () => {
     const word = dicStore.State.data.channel.item[0].word;
@@ -38,4 +42,5 @@ import '/sass/style.scss';
     const errorMessage = dicStore.State.data.error.message;
     if (errorMessage === DicFetcher.notFoundMessage) resultEl.textContent = `${word} - 없는 단어입니다.`;
   })
+  */
 })();
