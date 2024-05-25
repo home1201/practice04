@@ -1,3 +1,5 @@
+@use './variables' as v;
+
 @import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
 
 //Reset
@@ -14,6 +16,8 @@ html {
 }
 
 body {
+  width: min(v.$content-max-width-rem, 100% - 2rem);
+  margin-inline: auto;
   font-family: 'Wanted Sans Variable', system-ui, sans-serif;
   color: var(--color-text-400);
   line-height: 1.6;
@@ -22,10 +26,11 @@ body {
 }
 
 a {
-  text-decoration: none;
 
+  &:link,
   &:visited {
     color: inherit;
+    text-decoration: none;
   }
 }
 

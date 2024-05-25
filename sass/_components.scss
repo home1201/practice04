@@ -9,8 +9,8 @@
 }
 
 .wrapper {
-  width: min(v.$content-max-width-rem, 100% - 2rem);
-  margin-inline: auto;
+  // width: min(v.$content-max-width-rem, 100% - 2rem);
+  // margin-inline: auto;
 }
 
 .button {
@@ -22,6 +22,17 @@
   #{&}:focus,
   #{&}:active {}
 }
+
+.not-found,
+.init {
+  color: var(--color-text-300);
+  font-size: var(--font-size-600);
+  margin-top: var(--space-800);
+  margin-inline: auto;
+  width: 70%;
+  text-align: center;
+}
+
 
 .wordmark {
   &__button {

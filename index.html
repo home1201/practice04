@@ -9,24 +9,59 @@
 </head>
 
 <body>
-  <main class="wrapper" data-main>
-    <header class="search">
-      <a href="#">
-        <h1 class="search__heading">우리말사전</h1>
-      </a>
-      <form action="#/search" class="search__form" method="get" data-search-form>
-        <label class="u-hide" for="search">검색어 입력</label>
-        <input id="search" class="search__input" name="input" type="text" placeholder="검색어 입력">
-        <button class="search__submit" type="submit">찾기</button>
-      </form>
-    </header>
-    <section class="result" data-result>
-      <p class="result__init" data-result-init>우리말사전으로 찾고 싶은 단어의 뜻을 알아보세요.</p>
-    </section>
-    <button class="wordmark__button" type="button">단어장</button>
-    <dialog open>
-    </dialog>
+  <header class="search">
+    <a href="#">
+      <h1 class="search__heading">우리말사전</h1>
+    </a>
+    <form action="#/search" class="search__form" method="get" data-search-form>
+      <label class="u-hide" for="search">검색어 입력</label>
+      <input id="search" class="search__input" name="input" type="text" placeholder="검색어 입력">
+      <button class="search__submit" type="submit">찾기</button>
+    </form>
+  </header>
+  <main data-main> <!-- search-result or info class.  -->
   </main>
+  <button class="wordmark__button" type="button">단어장</button>
+  <dialog>
+  </dialog>
 </body>
+
+<!--
+info 모드 정보
+{
+    "channel": {
+        "title": "표준 국어 대사전 개발 지원(Open API) - 사전 검색 ",
+        "link": "https://stdict.korean.go.kr ",
+        "description": "표준 국어 대사전 개발 지원(Open API) – 사전 검색 결과 ",
+        "lastbuilddate": 2,
+        "total": 1,
+        "item": {
+            "target_code": 404765,
+            "word_info": {
+                "word": "나무",
+                "word_unit": "단어",
+                "word_type": "고유어"
+            },
+            "pos_info": {
+                "pos": "명사",
+                "comm_pattern_info": {
+                    "sense_info": {
+                        "type": "일반어",
+                        "definition": "줄기나 가지가 목질로 된 여러해살이 식물.",
+                        "example_info": [
+                            {
+                                "example": "나무가 우거진 산."
+                            },
+                            {
+                                "example": "나무가 울창한 숲."
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}
+-->
 
 </html>

@@ -60,15 +60,8 @@
   }
 }
 
-.result {
-  &__init {
-    color: var(--color-text-300);
-    font-size: var(--font-size-600);
-    margin-top: var(--space-800);
-    margin-inline: auto;
-    width: 70%;
-    text-align: center;
-  }
+.search-result {
+  padding-bottom: var(--space-600);
 
   &__item {
     display: -webkit-box;
@@ -106,6 +99,88 @@
 
   &__description {
     padding-top: var(--space-100);
+    padding-bottom: var(--space-100);
     overflow: clip;
+  }
+}
+
+.view {
+  margin-top: var(--space-400);
+  margin-inline: var(--space-400);
+
+  &__title {
+    font-size: var(--font-size-600);
+  }
+
+  &__pronunciation {
+    padding-bottom: var(--space-300);
+    border-bottom: 1px solid var(--color-text-200);
+    color: var(--color-text-300);
+  }
+
+  &__pronunciation-value {
+    margin-left: var(--space-100);
+    color: var(--color-text-400);
+
+    &::after {
+      content: ' ]';
+    }
+
+    &::before {
+      content: '[ ';
+    }
+  }
+
+  &__type {
+    display: inline-block;
+    font-size: var(--font-size-400);
+    border: 1px solid var(--color-text-200);
+    padding: var(--space-100) var(--space-200);
+    border-radius: calc(var(--radius-min) / 4);
+    margin-block: var(--space-400);
+  }
+
+  &__sense-list {
+    counter-reset: sense-item;
+  }
+
+  &__sense-item {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    column-gap: var(--space-200);
+    margin-left: var(--space-200);
+    margin-bottom: var(--space-400);
+
+    &:before {
+      grid-row: span 3;
+      counter-increment: sense-item;
+      font-weight: 500;
+      content: counter(sense-item, decimal-leading-zero) ".";
+    }
+  }
+
+  &__definition {
+    grid-column: span 2;
+  }
+
+  &__example-key {
+    font-size: var(--font-size-300);
+    line-height: 2;
+    margin-right: var(--space-100);
+    color: var(--color-text-300);
+  }
+
+  &__example-list {
+    color: var(--color-text-300);
+  }
+
+  &__example-item {
+    &::before {
+      content: '▶ ';
+    }
+
+    &+& {
+      margin-top: var(--space-100);
+    }
   }
 }

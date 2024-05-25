@@ -1,46 +1,40 @@
-import { SearchActions, dicStore } from './dicStore';
-import DicFetcher from './dicFetcher';
-import '/sass/style.scss';
-import ResultItemElement from './resultItemElement';
+import DicFetcher from "./DicFetcher";
+import MainElManager from "./DOMManager/MainElManager";
+import Router from "./Router";
+import { DicActions, dicStore } from "./store/dicStore";
+import "/sass/style.scss";
 
 (async () => {
-  const resultEl = new ResultItemElement();
-  resultEl.showLog();
-  const searchForm = document.querySelector('[data-search-form]');
-  searchForm.addEventListener('submit', e => {
+  const searchForm = document.querySelector("[data-search-form]");
+  searchForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    const inputValue = e.target.input.value;
-    // dicStore.dispatch(SearchActions.searchStart, inputValue);
-  })
+    const query = e.target.input.value;
+    e.target.input.value = "";
+    window.location.hash = `!/Search/${query}`;
+  });
 
-  dicStore.subscribe(SearchActions.searchStart, async () => {
-    const inputValue = dicStore.State.data;
-    const dicFetcher = new DicFetcher(import.meta.env.VITE_API_KEY);
+  DicFetcher.init(import.meta.env.VITE_API_KEY);
+  dicStore.subscribe(
+    DicActions.View.Start,
+    async () => await DicFetcher.fetch(DicFetcher.typeView),
+  );
+  dicStore.subscribe(
+    DicActions.Search.Start,
+    async () => await DicFetcher.fetch(DicFetcher.typeSearch),
+  );
 
-    let result = null;
-    try {
-      result = await dicFetcher.search(inputValue);
-      dicStore.dispatch(SearchActions.searchComplete, result);
-    } catch (error) {
-      result = {
-        word: inputValue,
-        error,
-      };
-      dicStore.dispatch(SearchActions.searchError, result);
-    }
-  })
+  MainElManager.init("[data-main]");
+  dicStore.subscribe(
+    DicActions.Search.Error,
+    MainElManager.createSearchErrorEl,
+  );
+  dicStore.subscribe(
+    DicActions.Search.Complete,
+    MainElManager.createSearchResultsEl,
+  );
+  dicStore.subscribe(DicActions.View.Complete, MainElManager.createViewEl);
+  dicStore.subscribe(DicActions.View.Error, MainElManager.createViewErrorEl);
 
-  /*
-  const resultEl = document.querySelector('[data-result-test]');
-  dicStore.subscribe(SearchActions.searchComplete, () => {
-    const word = dicStore.State.data.channel.item[0].word;
-    const definition = dicStore.State.data.channel.item[0].sense.definition;
-    resultEl.textContent = `${word} - ${definition}`;
-  })
-  dicStore.subscribe(SearchActions.searchError, () => {
-    const word = dicStore.State.data.word;
-    const errorMessage = dicStore.State.data.error.message;
-    if (errorMessage === DicFetcher.notFoundMessage) resultEl.textContent = `${word} - 없는 단어입니다.`;
-  })
-  */
+  window.addEventListener("DOMContentLoaded", Router.route);
+  window.addEventListener("hashchange", Router.route);
 })();
