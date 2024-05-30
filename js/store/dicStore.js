@@ -1,4 +1,4 @@
-import { DefaultAction, Store } from "./store";
+import { DefaultAction, Store, freezeAction } from "./store";
 import { create } from "mutative";
 
 export const DicActions = {
@@ -13,56 +13,40 @@ export const DicActions = {
     Error: "VIEW ERROR",
   },
 };
-Object.freeze(DicActions);
-Object.freeze(DicActions.Search);
-Object.freeze(DicActions.View);
+freezeAction(DicActions);
 
-const getDicActionsArr = () => {
-  const result = [];
-  for (const type of Object.values(DicActions)) {
-    result.push(...Object.values(type));
-  }
-  return result;
-};
+const dicReducer = (action, state, data = null) => {
+  const setState = (result) => {
+    return create(state, (draft) => {
+      draft.id = state.id + 1;
+      draft.action = action;
+      draft.data = result;
+    });
+  };
 
-const loadReducer = (action, state, data = null) => {
-  let result = null;
   switch (action) {
     case DicActions.Search.Start:
     case DicActions.View.Start:
-      result = data;
-      break;
-
+      return setState(data);
     case DicActions.Search.Complete:
-      result = data.channel.item;
-      break;
+      return setState(data.channel.item);
     case DicActions.Search.Error:
-      result = {
+      return setState({
         word: state.data,
         error: data,
-      };
-      break;
-
+      });
     case DicActions.View.Complete:
-      result = data.channel.item.word_info;
-      break;
+      return setState(data.channel.item.word_info);
     case DicActions.View.Error:
-      result = {
+      return setState({
         error: data,
-      };
-      break;
+      });
     default:
-      result = {
-        id: state.id + 1,
-        action: DefaultAction.invaildAction,
-      };
+      return create(state, (draft) => {
+        draft.id = state.id + 1;
+        draft.action = DefaultAction.invaildAction;
+      });
   }
-  return create(state, (draft) => {
-    draft.id = state.id + 1;
-    draft.action = action;
-    draft.data = result;
-  });
 };
 
-const dicActionsArr = getDicActionsArr();
-export const dicStore = new Store(dicActionsArr, loadReducer);
+export const dicStore = new Store(DicActions, dicReducer);

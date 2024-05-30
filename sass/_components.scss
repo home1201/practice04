@@ -34,31 +34,30 @@
 }
 
 
-.wordmark {
-  &__button {
-    position: fixed;
-    display: block;
-    bottom: 8%;
-    margin-left: min(v.$content-max-width-rem, 100% - 2rem);
-    transform: translateX(-120%);
-    background-color: var(--color-secondary-400);
-    color: var(--color-text-100);
-    padding: var(--space-300) var(--space-300);
-    border-radius: var(--radius-max);
-    font-weight: 600;
-    text-align: center;
-    width: 4rem;
-    height: 4rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.wordmark-open-button {
+  position: fixed;
+  display: block;
+  bottom: 8%;
+  margin-left: min(v.$content-max-width-rem, 100% - 2rem);
+  transform: translateX(-120%);
+  background-color: var(--color-secondary-400);
+  color: var(--color-text-100);
+  padding: var(--space-300) var(--space-300);
+  border-radius: var(--radius-max);
+  font-weight: 600;
+  text-align: center;
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.55;
 
-    &::before {
-      font-family: 'icomoon';
-      content: "\e9d3";
-      text-align: center;
-      font-size: var(--font-size-500);
-      display: block;
-    }
+  &::before {
+    font-family: 'icomoon';
+    content: "\e9d3";
+    text-align: center;
+    font-size: var(--font-size-500);
+    display: block;
   }
 }

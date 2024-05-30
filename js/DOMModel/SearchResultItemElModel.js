@@ -14,7 +14,7 @@ import { createElementWithClass } from "../utils";
 */
 export default class SearchResultItemElModel extends DOMModel {
   constructor(content) {
-    super("a", "search-result__item");
+    super("li", "search-result__item");
     this._parentClassName = "search-result";
 
     this._content = {
@@ -26,21 +26,23 @@ export default class SearchResultItemElModel extends DOMModel {
     };
 
     const base = this._base;
-    base.setAttribute("href", `#!/View/${this._content.id}`);
 
-    const title = createElementWithClass(
+    const link = createElementWithClass("a", "link", this._parentClassName);
+    link.setAttribute("href", `#!/View/${this._content.id}`);
+
+    const titleText = createElementWithClass(
       "strong",
       "title",
       this._parentClassName,
     );
-    const titleText = document.createTextNode(this._content.word);
+    titleText.textContent = this._content.word;
     const titleSup = createElementWithClass(
       "sup",
       "super",
       this._parentClassName,
     );
     titleSup.textContent = this._content.num;
-    title.append(titleText, titleSup);
+    link.append(titleText, titleSup);
 
     const desc = createElementWithClass(
       "p",
@@ -56,6 +58,6 @@ export default class SearchResultItemElModel extends DOMModel {
     const descText = document.createTextNode(this._content.desc);
     desc.append(descPos, descText);
 
-    base.append(title, desc);
+    base.append(link, desc);
   }
 }

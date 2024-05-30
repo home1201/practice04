@@ -4,6 +4,7 @@
 :root {
   //Color
   --color-primary-100: hsl(222, 92%, 98%);
+  --color-primary-200: hsl(222, 92%, 92%);
   --color-primary-400: hsl(222, 92%, 20%);
   --color-secondary-400: hsl(4, 99%, 39%);
 
@@ -34,7 +35,9 @@
   --space-900: 8rem;
 
   //Radius
-  --radius-min: 30px;
+  --radius-base: 15px;
+  --radius-min: calc(var(--radius-base) / 2);
+  --radius-large: calc(var(--radius-base) * 2);
   --radius-max: 50%;
 }
 

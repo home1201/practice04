@@ -1,115 +1,41 @@
 import DOMModel from "./DOMModel";
 import { createElementWithClass } from "../utils";
+import { WordmarkActions, wordmarkStore } from "../store/wordmarkStore";
 
-export default class ViewElModel extends DOMModel {
-  #wordmarkAppendButton = null;
+//      <li class="wordmark__item" data-wordmark-item>
+//        <a href="" class="wordmark__link">나무</a>
+//        <button type="button" class="wordmark__delete-button">삭제</button>
+//      </li>
+
+export default class WordmarkItemElModel extends DOMModel {
+  #deleteButton = null;
 
   constructor(content) {
-    super("template", "");
-    this._parentClassName = "view";
+    super("li", "wordmark__item");
+    this._parentClassName = "wordmark";
 
     this._content = {
-      title: content.word,
-      pos: content.pos_info[0].pos,
-      id: content.pos_info[0].pos_code.slice(0, -3),
-      senses: content.pos_info[0].comm_pattern_info[0].sense_info,
-      pronunciation: content.pronunciation_info[0].pronunciation,
+      word: content.word,
+      id: content.id,
     };
 
-    const title = createElementWithClass("h2", "title", this._parentClassName);
-    title.textContent = this._content.title;
+    const word = createElementWithClass("a", "link", this._parentClassName);
+    word.textContent = this._content.word;
+    word.setAttribute("href", `#!/View/${this._content.id}`);
 
-    const pronunciation = createElementWithClass(
-      "div",
-      "pronunciation",
-      this._parentClassName,
-    );
-    const pronunciationKey = document.createTextNode("발음");
-    const pronunciationValue = createElementWithClass(
-      "span",
-      "pronunciation-value",
-      this._parentClassName,
-    );
-    pronunciationValue.textContent = this._content.pronunciation;
-    pronunciation.append(pronunciationKey, pronunciationValue);
-
-    this.#wordmarkAppendButton = createElementWithClass(
+    this.#deleteButton = createElementWithClass(
       "button",
-      "wordmark-append-button",
+      "delete-button",
       this._parentClassName,
     );
-    this.#wordmarkAppendButton.setAttribute("type", "button");
-    this.#wordmarkAppendButton.textContent = "단어장에 추가";
-
-    const type = createElementWithClass("div", "type", this._parentClassName);
-    type.textContent = this._content.pos;
-
-    const senseList = createElementWithClass(
-      "ol",
-      "sense-list",
-      this._parentClassName,
-    );
-    const senseItemArr = this._content.senses.map((sense) => {
-      const senseItem = createElementWithClass(
-        "li",
-        "sense-item",
-        this._parentClassName,
-      );
-
-      const definition = createElementWithClass(
-        "div",
-        "definition",
-        this._parentClassName,
-      );
-      definition.textContent = sense.definition;
-
-      if (!sense.example_info) {
-        senseItem.append(definition);
-        return senseItem;
-      }
-
-      const exampleKey = createElementWithClass(
-        "span",
-        "example-key",
-        this._parentClassName,
-      );
-      exampleKey.textContent = "예문";
-
-      const exampleList = createElementWithClass(
-        "ul",
-        "example-list",
-        this._parentClassName,
-      );
-      const exampleItemArr = sense.example_info.map((exampleObj) => {
-        const exampleItem = createElementWithClass(
-          "li",
-          "example-item",
-          this._parentClassName,
-        );
-        exampleItem.textContent = exampleObj.example;
-        return exampleItem;
-      });
-      exampleList.append(...exampleItemArr);
-      senseItem.append(definition, exampleKey, exampleList);
-      return senseItem;
-    });
-    senseList.append(...senseItemArr);
-
-    this._base.content.append(
-      title,
-      pronunciation,
-      this.#wordmarkAppendButton,
-      type,
-      senseList,
-    );
+    this.#deleteButton.textContent = "삭제";
+    this.#deleteButton.setAttribute("type", "button");
+    this._base.append(word, this.#deleteButton);
+    this._base.setAttribute("data-wordmark-item", this._content.id);
   }
 
-  addWordmarkAppendEventListener(listener) {
-    this.#wordmarkAppendButton.addEventListener("click", listener);
-  }
-
-  get Element() {
-    return this._base.content;
+  addDeleteEventListener(listener) {
+    this.#deleteButton.addEventListener("click", listener);
   }
 }
 // {

@@ -21,8 +21,27 @@
   </header>
   <main data-main> <!-- search-result or info class.  -->
   </main>
-  <button class="wordmark__button" type="button">단어장</button>
-  <dialog>
+  <button class="wordmark-open-button" type="button" data-wordmark-open>단어장</button>
+  <dialog class="wordmark" data-wordmark>
+    <strong class="wordmark__title">단어장</strong>
+    <p class="wordmark__description">단어장에 단어를 등록해두고 원할 때 편하게 찾아보세요.</p>
+    <form method="dialog">
+      <button value="close" class="wordmark__close-button">닫기</button>
+    </form>
+    <!-- <ul class="wordmark__list" data-wordmark-list> -->
+    <!--   <li class="wordmark__item" data-wordmark-item> -->
+    <!--     <a href="" class="wordmark__link">나무</a> -->
+    <!--     <button type="button" class="wordmark__delete-button">삭제</button> -->
+    <!--   </li> -->
+    <!--   <li class="wordmark__item"> -->
+    <!--     <a href="" class="wordmark__link">나무</a> -->
+    <!--     <button type="button" class="wordmark__delete-button">삭제</button> -->
+    <!--   </li> -->
+    <!--   <li class="wordmark__item"> -->
+    <!--     <a href="" class="wordmark__link">나무</a> -->
+    <!--     <button type="button" class="wordmark__delete-button">삭제</button> -->
+    <!--   </li> -->
+    <!-- </ul> -->
   </dialog>
 </body>
 

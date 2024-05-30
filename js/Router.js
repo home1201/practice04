@@ -7,10 +7,15 @@ export default class Router {
     return window.location.hash.replace("#!/", "").split("/");
   }
 
-  static route() {
+  #mainElManager = null;
+  constructor(mainElManager) {
+    this.#mainElManager = mainElManager;
+  }
+
+  route() {
     const [rawType, rawQuery] = Router.#parsePath();
     if (rawType === "" || !rawQuery) {
-      MainElManager.createInitEl();
+      this.#mainElManager.createInitEl();
       return;
     }
     const type = capitalized(rawType);

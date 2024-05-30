@@ -7,6 +7,8 @@ import {
 import ViewElModel from "../DOMModel/ViewElModel";
 import InitElModel from "../DOMModel/InitElModel";
 import { dicStore } from "../store/dicStore";
+import { createElementWithClass } from "../utils";
+import { WordmarkActions, wordmarkStore } from "../store/wordmarkStore";
 
 export default class MainElManager extends DOMManager {
   static get ELEMENT_TYPE_RESULT() {
@@ -16,44 +18,52 @@ export default class MainElManager extends DOMManager {
   static get ELEMENT_TYPE_VIEW() {
     return "view";
   }
-
-  static #appendParentEl(type, elements) {
-    MainElManager.clear();
-    MainElManager._parentEl.setAttribute("class", type);
-    MainElManager._parentEl.append(...elements);
-  }
-
-  static createSearchResultsEl() {
+  createSearchResultsEl() {
     const contents = dicStore.State.data;
-    return MainElManager.#appendParentEl(
+    const list = createElementWithClass(
+      "ul",
+      "list",
       MainElManager.ELEMENT_TYPE_RESULT,
-      contents.map((content) => new SearchResultItemElModel(content).Element),
+    );
+    list.append(
+      ...contents.map(
+        (content) => new SearchResultItemElModel(content).Element,
+      ),
+    );
+    this._appendParentEl(MainElManager.ELEMENT_TYPE_RESULT, list);
+  }
+  createSearchErrorEl() {
+    const content = dicStore.State.data;
+    this._appendParentEl(
+      MainElManager.ELEMENT_TYPE_RESULT,
+      new SearchResultErrorElModel(content).Element,
     );
   }
-  static createSearchErrorEl() {
-    const content = dicStore.State.data;
-    return MainElManager.#appendParentEl(MainElManager.ELEMENT_TYPE_RESULT, [
-      new SearchResultErrorElModel(content).Element,
-    ]);
-  }
 
-  static createViewEl() {
+  createViewEl() {
     const content = dicStore.State.data;
-    return MainElManager.#appendParentEl(MainElManager.ELEMENT_TYPE_VIEW, [
-      new ViewElModel(content).Element,
-    ]);
+    const viewElModel = new ViewElModel(content);
+    viewElModel.addWordmarkAppendEventListener(() => {
+      wordmarkStore.dispatch(WordmarkActions.Append.Start, {
+        id: viewElModel.Content.id,
+        word: viewElModel.Content.title,
+      });
+    });
+    this._appendParentEl(MainElManager.ELEMENT_TYPE_VIEW, viewElModel.Element);
   }
-  static createViewErrorEl() {
+  createViewErrorEl() {
     const content = dicStore.State.data;
-    return MainElManager.#appendParentEl(MainElManager.ELEMENT_TYPE_VIEW, [
+    this._appendParentEl(
+      MainElManager.ELEMENT_TYPE_VIEW,
       new ErrorElModel(content).Element,
-    ]);
+    );
   }
 
-  static createInitEl() {
-    return MainElManager.#appendParentEl(MainElManager.ELEMENT_TYPE_VIEW, [
+  createInitEl() {
+    this._appendParentEl(
+      MainElManager.ELEMENT_TYPE_VIEW,
       new InitElModel().Element,
-    ]);
+    );
   }
 }
 

@@ -34,7 +34,7 @@ export default class DicFetcher {
   static getUrl(type, query) {
     switch (type) {
       case DicFetcher.typeSearch:
-        return `/api/search.do?certkey_no=6410&key=${DicFetcher.#apiKey}&type_search=search&req_type=json&q=${query}`;
+        return `/api/search.do?certkey_no=6410&key=${DicFetcher.#apiKey}&type_search=search&num=100&req_type=json&q=${query}`;
       case DicFetcher.typeView:
         return `/api/view.do?certkey_no=6410&key=${DicFetcher.#apiKey}&type_search=view&req_type=json&method=TARGET_CODE&q=${query}`;
     }

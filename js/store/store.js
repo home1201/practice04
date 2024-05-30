@@ -4,6 +4,27 @@ export const DefaultAction = {
 };
 Object.freeze(DefaultAction);
 
+export const freezeAction = (actions) => {
+  Object.freeze(actions);
+  for (const key of Object.keys(actions)) {
+    if (actions[key] instanceof Object) {
+      Object.freeze(actions[key]);
+    }
+  }
+};
+
+const getActionArr = (actions) => {
+  const result = [];
+  for (const key of Object.keys(actions)) {
+    if (actions[key] instanceof Object) {
+      result.push(...Object.values(actions[key]));
+    } else {
+      result.push(actions[key]);
+    }
+  }
+  return result;
+};
+
 export class Store {
   static get baseState() {
     return { id: 0, action: DefaultAction.initialState };
@@ -18,7 +39,8 @@ export class Store {
     this.#reducer = reducer;
 
     this.#actionListeners = {};
-    actions.forEach((action) => {
+    const actionArr = getActionArr(actions);
+    actionArr.forEach((action) => {
       this.#actionListeners[action] = [];
     });
   }

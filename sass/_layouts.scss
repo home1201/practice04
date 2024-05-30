@@ -1,3 +1,5 @@
+@use 'variables' as v;
+
 .search {
   background-color: var(--color-primary-400);
   height: 12rem;
@@ -33,7 +35,7 @@
     padding: var(--space-400);
     font-size: var(--font-size-500);
     border: none;
-    border-radius: var(--radius-min);
+    border-radius: var(--radius-large);
     padding-left: var(--space-500);
 
     &::placeholder {
@@ -70,8 +72,8 @@
     overflow: hidden;
 
     margin-top: var(--space-300);
-    border-radius: calc(var(--radius-min) / 2);
-    background-color: var(--color-primary-100);
+    border-radius: var(--radius-base);
+    background-color: var(--color-primary-200);
     padding: var(--space-300) var(--space-400);
 
     &::first-child {
@@ -80,7 +82,6 @@
   }
 
   &__title {
-    display: block;
     font-size: var(--font-size-500);
     color: var(--color-primary-400);
   }
@@ -94,7 +95,7 @@
     margin-right: var(--space-100);
     border: 1px solid var(--color-text-200);
     padding: var(--space-100);
-    border-radius: calc(var(--radius-min) / 4);
+    border-radius: var(--radius-min);
   }
 
   &__description {
@@ -105,6 +106,7 @@
 }
 
 .view {
+  position: relative;
   margin-top: var(--space-400);
   margin-inline: var(--space-400);
 
@@ -131,12 +133,23 @@
     }
   }
 
+  &__wordmark-append-button {
+    position: absolute;
+    top: var(--space-300);
+    right: var(--space-200);
+    padding: var(--space-200) var(--space-300);
+    background-color: var(--color-primary-200);
+    border: 1px solid var(--color-primary-400);
+    border-radius: var(--radius-base);
+    color: var(--color-text-400);
+  }
+
   &__type {
     display: inline-block;
     font-size: var(--font-size-400);
     border: 1px solid var(--color-text-200);
     padding: var(--space-100) var(--space-200);
-    border-radius: calc(var(--radius-min) / 4);
+    border-radius: var(--radius-min);
     margin-block: var(--space-400);
   }
 
@@ -181,6 +194,94 @@
 
     &+& {
       margin-top: var(--space-100);
+    }
+  }
+}
+
+.wordmark {
+  padding-block: var(--space-600);
+  border: 1px solid black;
+  padding-inline: var(--space-300);
+  background-color: white;
+  border-radius: var(--radius-base);
+
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  &__title {
+    display: block;
+    text-align: center;
+    font-size: var(--font-size-500);
+  }
+
+  &__description {
+    padding-inline: var(--space-200);
+    margin-top: var(--space-200);
+    text-align: center;
+    font-size: var(--font-size-400);
+    padding-bottom: var(--space-400);
+    border-bottom: 0.6px dotted var(--color-text-300);
+  }
+
+  &__init {
+    padding-top: var(--space-500);
+    text-align: center;
+    font-size: var(--font-size-400);
+  }
+
+  &__item {
+    margin-top: var(--space-400);
+    margin-inline: var(--space-400);
+    background-color: var(--color-primary-200);
+    border-radius: var(--radius-min);
+    padding: var(--space-200) var(--space-300);
+    font-weight: 500;
+    color: var(--color-text-400);
+
+    &:first-child {
+      margin-top: var(--space-500);
+    }
+
+    &::before {
+      content: '📌';
+      color: var(--color-text-100);
+    }
+  }
+
+  --wordmark-elem-gap: var(--space-700);
+
+  &__link {
+    margin-left: var(--space-100);
+    display: inline-block;
+    width: calc(82% - var(--wordmark-elem-gap));
+  }
+
+  &__close-button {
+    position: absolute;
+    top: var(--space-100);
+    right: var(--space-300);
+    overflow-x: clip;
+    text-wrap: nowrap;
+    width: 0.96ic;
+    display: inline-block;
+    font-size: var(--font-size-600);
+
+    &::before {
+      content: '❌';
+      text-align: center;
+    }
+  }
+
+  &__delete-button {
+    margin-left: var(--wordmark-elem-gap);
+    overflow-x: clip;
+    text-wrap: nowrap;
+    width: 1.5ch;
+    display: inline-block;
+
+    &::before {
+      content: '❌';
     }
   }
 }

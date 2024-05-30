@@ -1,12 +1,19 @@
 export default class DOMManager {
-  static _parentEl = null;
-  static init(parentElName) {
-    DOMManager._parentEl = document.querySelector(parentElName);
+  _parentEl = null;
+
+  constructor(parentElName) {
+    this._parentEl = document.querySelector(`[${parentElName}]`);
   }
 
-  static clear() {
-    while (this._parentEl.firstChild) {
-      this._parentEl.removeChild(this._parentEl.firstChild);
+  _clear(parentEl = this._parentEl) {
+    while (parentEl.firstChild) {
+      parentEl.removeChild(parentEl.firstChild);
     }
+  }
+
+  _appendParentEl(type, element) {
+    this._clear();
+    this._parentEl.setAttribute("class", type);
+    this._parentEl.append(element);
   }
 }
