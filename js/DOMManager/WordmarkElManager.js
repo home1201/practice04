@@ -10,6 +10,7 @@ export default class WordmarkElManager extends DOMManager {
   static get ELEMENT_TYPE_WORDMARK() {
     return "wordmark";
   }
+
   #setElisVisible(element, isVisible) {
     if (isVisible) element.classList.remove("u-hide");
     else element.classList.add("u-hide");
@@ -40,6 +41,15 @@ export default class WordmarkElManager extends DOMManager {
     this._parentEl.append(this.#listEl);
   }
 
+  #createWordmarkItemElModel(content) {
+    const result = new WordmarkItemElModel(content);
+    result.addDeleteEventListener(() => {
+      wordmarkStore.dispatch(WordmarkActions.Delete.Start, content.id);
+    });
+
+    return result;
+  }
+
   constructor(parentElName) {
     super(parentElName);
     this.#setInitEl();
@@ -55,23 +65,22 @@ export default class WordmarkElManager extends DOMManager {
       this.#setElisVisible(wordmarkOpenEl, true);
     });
   }
-  createWordmarkItemEl() {
+
+  appendWordmarkItemEl() {
     const content = wordmarkStore.State.data;
 
     this.#setListEl();
-    const newItem = new WordmarkItemElModel(content);
-    newItem.addDeleteEventListener(() => {
-      wordmarkStore.dispatch(WordmarkActions.Delete.Start, content.id);
-    });
+    const newItem = this.#createWordmarkItemElModel(content);
     this.#listEl.append(newItem.Element);
   }
 
-  createWordmarkListEl() {
+  appendWordmarkListEl() {
     const content = wordmarkStore.State.data;
 
     this.#setListEl();
     for (const [id, word] of content) {
-      this.#listEl.append(new WordmarkItemElModel({ id, word }).Element);
+      const newItem = this.#createWordmarkItemElModel({ id, word });
+      this.#listEl.append(newItem.Element);
     }
   }
 

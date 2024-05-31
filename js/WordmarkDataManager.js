@@ -3,9 +3,20 @@ import { wordmarkStore, WordmarkActions } from "./store/wordmarkStore";
 export default class WordmarkDataManager {
   static #wordmarkMap = null;
 
+  static #saveWordmarkMap() {
+    if (!WordmarkDataManager.#wordmarkMap) {
+      console.log("map === null");
+      return;
+    }
+    localStorage.setItem("wordmark", JSON.stringify([...this.#wordmarkMap]));
+  }
+
   static loadData() {
-    //데이터 로드 작업
-    const content = [];
+    let content = null;
+    const rawContent = localStorage.getItem("wordmark");
+    if (!rawContent) content = [];
+    else content = JSON.parse(rawContent);
+
     WordmarkDataManager.#wordmarkMap = new Map(content);
     wordmarkStore.dispatch(WordmarkActions.Load, content);
   }
@@ -15,6 +26,7 @@ export default class WordmarkDataManager {
     if (!WordmarkDataManager.#wordmarkMap.has(id)) return;
 
     WordmarkDataManager.#wordmarkMap.delete(id);
+    WordmarkDataManager.#saveWordmarkMap();
     wordmarkStore.dispatch(WordmarkActions.Delete.Complete, id);
   }
 
@@ -26,6 +38,7 @@ export default class WordmarkDataManager {
     }
 
     WordmarkDataManager.#wordmarkMap.set(id, word);
+    WordmarkDataManager.#saveWordmarkMap();
     wordmarkStore.dispatch(WordmarkActions.Append.Complete, { id, word });
   }
 }

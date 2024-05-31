@@ -33,6 +33,24 @@
   text-align: center;
 }
 
+.popover {
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-primary-200);
+  color: var(--color-secondary-400);
+  padding: var(--space-300) var(--space-500);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-500);
+  border: none;
+  margin-top: var(--space-500);
+
+  &:before {
+    content: "X";
+    color: var(--color-secondary-400);
+    font-weight: 600;
+    margin-right: var(--space-300);
+  }
+}
 
 .wordmark-open-button {
   position: fixed;
@@ -42,7 +60,7 @@
   transform: translateX(-120%);
   background-color: var(--color-secondary-400);
   color: var(--color-text-100);
-  padding: var(--space-300) var(--space-300);
+  padding: var(--space-300);
   border-radius: var(--radius-max);
   font-weight: 600;
   text-align: center;

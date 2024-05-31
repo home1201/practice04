@@ -25,7 +25,6 @@ const wordmarkReducer = (action, state, data = null) => {
   };
   switch (action) {
     case WordmarkActions.Load:
-      return setNewState(new Map(data));
     case WordmarkActions.Delete.Start:
     case WordmarkActions.Delete.Complete:
     case WordmarkActions.Append.Start:

@@ -16,8 +16,8 @@ import "/sass/style.scss";
     window.location.hash = `!/Search/${query}`;
   });
 
+  //사전 API 읽기
   DicFetcher.init(import.meta.env.VITE_API_KEY);
-
   dicStore.subscribe(
     DicActions.View.Start,
     async () => await DicFetcher.fetch(DicFetcher.typeView),
@@ -27,6 +27,7 @@ import "/sass/style.scss";
     async () => await DicFetcher.fetch(DicFetcher.typeSearch),
   );
 
+  //사전 데이터 DOM으로 변환
   const mainElManager = new MainElManager("data-main");
   dicStore.subscribe(DicActions.Search.Error, () =>
     mainElManager.createSearchErrorEl(),
@@ -41,37 +42,29 @@ import "/sass/style.scss";
     mainElManager.createViewErrorEl(),
   );
 
+  //라우터
   const router = new Router(mainElManager);
-  window.addEventListener("DOMContentLoaded", () => router.route());
+  window.addEventListener("load", () => router.route());
   window.addEventListener("hashchange", () => router.route());
 
-  const wordmarkElManager = new WordmarkElManager("data-wordmark");
-  wordmarkStore.subscribe(WordmarkActions.Load, () =>
-    wordmarkElManager.createWordmarkListEl(),
-  );
-  wordmarkStore.subscribe(WordmarkActions.Append.Complete, () =>
-    wordmarkElManager.createWordmarkItemEl(),
-  );
+  //단어장 데이터 읽기
+  window.addEventListener("load", () => WordmarkDataManager.loadData());
   wordmarkStore.subscribe(WordmarkActions.Append.Start, () =>
     WordmarkDataManager.append(),
   );
   wordmarkStore.subscribe(WordmarkActions.Delete.Start, () =>
     WordmarkDataManager.delete(),
   );
+
+  //단어장 데이터 DOM으로 변환
+  const wordmarkElManager = new WordmarkElManager("data-wordmark");
+  wordmarkStore.subscribe(WordmarkActions.Load, () =>
+    wordmarkElManager.appendWordmarkListEl(),
+  );
+  wordmarkStore.subscribe(WordmarkActions.Append.Complete, () =>
+    wordmarkElManager.appendWordmarkItemEl(),
+  );
   wordmarkStore.subscribe(WordmarkActions.Delete.Complete, () =>
     wordmarkElManager.deleteWordmarkItemEl(),
   );
-
-  // wordmarkStore.dispatch(WordmarkActions.LoadComplete, new Set());
-  //
-  WordmarkDataManager.loadData();
-  wordmarkStore.dispatch(WordmarkActions.Append.Start, {
-    id: 404765,
-    word: "나무",
-  });
-  wordmarkStore.dispatch(WordmarkActions.Delete.Start, 440197);
-  // wordmarkStore.dispatch(WordmarkActions.AppendComplete, {
-  //   id: 440200,
-  //   word: "사장",
-  // });
 })();
