@@ -14,7 +14,7 @@ export default class DOMManager {
 
   showPopoverEl(content = this._store.State.data) {
     const popoverEl = new PopoverElModel(content).Element;
-    document.querySelector("body").append(popoverEl);
+    document.body.append(popoverEl);
     popoverEl.showPopover();
   }
 
