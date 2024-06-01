@@ -28,7 +28,7 @@ import "/sass/style.scss";
   );
 
   //사전 데이터 DOM으로 변환
-  const mainElManager = new MainElManager("data-main");
+  const mainElManager = new MainElManager("data-main", dicStore);
   dicStore.subscribe(DicActions.Search.Error, () =>
     mainElManager.createSearchErrorEl(),
   );
@@ -36,7 +36,7 @@ import "/sass/style.scss";
     mainElManager.createSearchResultsEl(),
   );
   dicStore.subscribe(DicActions.View.Complete, () =>
-    mainElManager.createViewEl(),
+    mainElManager.createViewEl(wordmarkStore),
   );
   dicStore.subscribe(DicActions.View.Error, () =>
     mainElManager.createViewErrorEl(),
@@ -57,12 +57,18 @@ import "/sass/style.scss";
   );
 
   //단어장 데이터 DOM으로 변환
-  const wordmarkElManager = new WordmarkElManager("data-wordmark");
+  const wordmarkElManager = new WordmarkElManager(
+    "data-wordmark",
+    wordmarkStore,
+  );
   wordmarkStore.subscribe(WordmarkActions.Load, () =>
     wordmarkElManager.appendWordmarkListEl(),
   );
   wordmarkStore.subscribe(WordmarkActions.Append.Complete, () =>
     wordmarkElManager.appendWordmarkItemEl(),
+  );
+  wordmarkStore.subscribe(WordmarkActions.Append.Error, () =>
+    wordmarkElManager.showPopoverEl(),
   );
   wordmarkStore.subscribe(WordmarkActions.Delete.Complete, () =>
     wordmarkElManager.deleteWordmarkItemEl(),

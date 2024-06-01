@@ -6,9 +6,8 @@ import {
 } from "../DOMModel/ErrorElModel";
 import ViewElModel from "../DOMModel/ViewElModel";
 import InitElModel from "../DOMModel/InitElModel";
-import { dicStore } from "../store/dicStore";
 import { createElementWithClass } from "../utils";
-import { WordmarkActions, wordmarkStore } from "../store/wordmarkStore";
+import { WordmarkActions } from "../store/wordmarkStore";
 
 export default class MainElManager extends DOMManager {
   static get ELEMENT_TYPE_RESULT() {
@@ -19,7 +18,7 @@ export default class MainElManager extends DOMManager {
     return "view";
   }
   createSearchResultsEl() {
-    const contents = dicStore.State.data;
+    const contents = this._store.State.data;
     const list = createElementWithClass(
       "ul",
       "list",
@@ -33,15 +32,15 @@ export default class MainElManager extends DOMManager {
     this._appendParentEl(MainElManager.ELEMENT_TYPE_RESULT, list);
   }
   createSearchErrorEl() {
-    const content = dicStore.State.data;
+    const content = this._store.State.data;
     this._appendParentEl(
       MainElManager.ELEMENT_TYPE_RESULT,
       new SearchResultErrorElModel(content).Element,
     );
   }
 
-  createViewEl() {
-    const content = dicStore.State.data;
+  createViewEl(wordmarkStore) {
+    const content = this._store.State.data;
     const viewElModel = new ViewElModel(content);
     viewElModel.addWordmarkAppendEventListener(() => {
       wordmarkStore.dispatch(WordmarkActions.Append.Start, {
@@ -52,7 +51,7 @@ export default class MainElManager extends DOMManager {
     this._appendParentEl(MainElManager.ELEMENT_TYPE_VIEW, viewElModel.Element);
   }
   createViewErrorEl() {
-    const content = dicStore.State.data;
+    const content = this._store.State.data;
     this._appendParentEl(
       MainElManager.ELEMENT_TYPE_VIEW,
       new ErrorElModel(content).Element,
@@ -66,17 +65,3 @@ export default class MainElManager extends DOMManager {
     );
   }
 }
-
-/*
-  const resultEl = document.querySelector('[data-result-test]');
-  dicStore.subscribe(DicActions.searchComplete, () => {
-    const word = dicStore.State.data.channel.item[0].word;
-    const definition = dicStore.State.data.channel.item[0].sense.definition;
-    resultEl.textContent = `${word} - ${definition}`;
-  })
-  dicStore.subscribe(DicActions.searchError, () => {
-    const word = dicStore.State.data.word;
-    const errorMessage = dicStore.State.data.error.message;
-    if (errorMessage === DicFetcher.notFoundMessage) resultEl.textContent = `${word} - 없는 단어입니다.`;
-  })
-  */

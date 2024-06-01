@@ -10,5 +10,9 @@ export default class PopoverElModel extends DOMModel {
 
     this._base.textContent = this._content.message;
     this._base.setAttribute("popover", "");
+    this._base.addEventListener("animationend", () => {
+      this._base.hidePopover();
+      this._base.remove();
+    });
   }
 }

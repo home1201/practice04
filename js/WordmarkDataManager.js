@@ -33,7 +33,10 @@ export default class WordmarkDataManager {
   static append() {
     const { id, word } = wordmarkStore.State.data;
     if (WordmarkDataManager.#wordmarkMap.has(id)) {
-      wordmarkStore.dispatch(WordmarkActions.Append.Error, word);
+      wordmarkStore.dispatch(
+        WordmarkActions.Append.Error,
+        `이미 단어장에 있는 단어입니다`,
+      );
       return;
     }
 
